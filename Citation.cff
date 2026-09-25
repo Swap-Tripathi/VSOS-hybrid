@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: "Software: Vectorized SOS-hybrid solver"
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+
+authors:
+  - given-names: Swapnil
+    family-names: Tripathi
+    email: swap_trip@outlook.com
+    affiliation: "Kadir Has University, Istanbul, Turkey"
+    orcid: "https://orcid.org/0000-0002-5726-1813"
+
+identifiers:
+  - type: doi
+    value: "ADD PAPER LINK HERE"
+    description: "Paper on Construction of Lyapunov Certificates for Rotational Dynamics."
+
+repository-code: "https://github.com/Swap-Tripathi/VSOS-hybrid/"
+
+abstract: |
+  The repository contains programs to obtain Lyapunov densities and local Lyapunov functions
+  for examples in the paper
+  "Construction of Lyapunov Certificates for Rotational Dynamics"
+  (ADD PREPRINT LINK HERE).
+
+keywords:
+  - Real-trigonometric hybrid polynomials
+  - Lyapunov Density
+  - Second-order coupled oscillators
+  - Almost global stability
+  - Almost global synchronization
+
+license: "CC-BY-4.0"
+commit: "Original_codes"
+version: "1.0"
+date-released: "2026-09-25"
