@@ -1,0 +1,57 @@
+function retaK = curlyH(R, nr_omega, nr_theta, eta, k) 
+%Generates Tr[( B^{n𝑟𝜔(c)+1} _ 𝜂c ⊗ ..... ⊗ 𝐵^{n𝑟𝜔 (1) + 1} _ 𝜂1 ⊗ T^{n𝑟θ (d)+1} _ kd ⊗ ..... ⊗ T^{n𝑟θ (1) + 1} _ k1) . X]
+    
+    % Computes the trace parameterization for hybrid polynomials
+    % using Toeplitz and Hankel matrices
+    % X: Gram matrix (G_R) related to the hybrid polynomial R(omega, theta)
+    % nr_omega: Degrees for omega polynomials (vector of length c)
+    % nr_theta: Degrees for theta polynomials (vector of length d)
+    % eta:new index for Hankel matrix
+    % k: index for Toeplitz matrix
+
+    % Dimensions of omega and theta
+    c = length(nr_omega);                        % Dimension of omega, eta_1, eta_2, ..., eta_c
+    d = length(nr_theta);                        % Dimension of theta, k_1, k_2, ..., k_d
+    
+    % Initialize the hybrid matrix H and output trace
+
+    H = speye(1);
+    
+    for j = 1:d     % Generate tensor product of Toeplitz matrices for theta terms
+        H = kron(toeplitz_matrix(nr_theta(j)+1, k(j)), H); % Multiplies T^{n𝑟θ (d)+1} _ kd ⊗ ..... ⊗ T^{n𝑟θ (1) + 1} _ k1
+    end
+
+    for i = 1:c     % Generate tensor product of Hankel matrices for omega terms
+        H = kron(hankel_matrix(nr_omega(i)+1, eta(i)), H);  % Generates  𝐵^{n𝑟𝜔 (c)+1} _ 𝜂c ⊗ ..... ⊗ 𝐵^{n𝑟𝜔 (1) + 1} _ 𝜂1
+    end
+    
+
+    retaK = trace(H * R);
+
+    function T = toeplitz_matrix(n, k)
+
+        if abs(k) > n-1
+            T = sparse(n,n);
+        return
+        end
+
+        v = ones(n,1);              % MUST be length n
+        T = spdiags(v, k, n, n);    % Toeplitz diagonal
+    end
+
+
+    function H = hankel_matrix(n, eta)
+
+        k = eta - (n-1);              % diagonal offset
+
+        if eta < 0 || eta > 2*(n-1)
+                H = sparse(n,n);
+                return
+        end
+
+        v = ones(n,1);                % MUST be length n
+        T = spdiags(v, k, n, n);      % Toeplitz diagonal
+        H = flipud(T);                % convert to Hankel
+    end
+
+end
